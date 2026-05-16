@@ -163,14 +163,14 @@ export class PlayerGame {
             }
             if (card.data.treasureType == 'Используемая') {
                 card.defs?.action(defs);
-                game.Player.logging(`${this.player.name} использует ${card.abstractData.name} (${card.defs.log_txt ?? ''})`)
+                game.Player.logging(`${this.player.name} использует ${card.abstractData.name} (${card.defs?.log_txt ?? ''})`)
                 game.Card.toSbros(card);
             }
             if (card.data.treasureType == 'Боевая') {
                 if (!game.is_fight) return
                 // ????????????????
                 // card.defs.action(defs);
-                game.Player.logging(`${this.player.name} использует ${card.abstractData.name} (${card.defs.log_txt ?? ''})`);
+                game.Player.logging(`${this.player.name} использует ${card.abstractData.name} (${card.defs?.log_txt ?? ''})`);
                 game.field.fight.cards.players.push(card); // Выбор стороны
                 this.game.Fight.refreshFight();
                 game.Card.toSbros(card);
