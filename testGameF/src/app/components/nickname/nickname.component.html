@@ -1,0 +1,17 @@
+<div class="wrapper">
+    <mat-form-field class="formField">
+        <mat-label>Никнейм</mat-label>
+        <input matInput type="text" [formControl]="control" required>
+        @if (answer){
+            <mat-error>{{answer}}</mat-error>
+        }
+        @if (control.value) {
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="control.setValue('')">
+            <mat-icon>close</mat-icon>
+        </button>
+        }
+    </mat-form-field>
+    <button class="formField button" mat-raised-button color="primary" (click)="click()">
+        Принять
+    </button>
+</div>

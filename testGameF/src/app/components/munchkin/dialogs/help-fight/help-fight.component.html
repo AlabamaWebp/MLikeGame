@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Просьба о помощи</h2>
+<mat-dialog-content>
+    <p>Вам предлагают помочь в бою за {{data}} сокровищ</p>
+  </mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="close1()">Я подумаю</button>
+    <button mat-button (click)="close1(false)">Нет</button>
+    <button mat-button (click)="close1(true)" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

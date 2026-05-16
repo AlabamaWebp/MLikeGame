@@ -1,0 +1,15 @@
+{
+    "abstractData": {
+        "name": "Бошмаки пенделя",
+        "description": "",
+        "cardType": "Сокровище",
+        "img": "",
+        "cost": "400"
+    },
+    "data": {
+        "treasureType": "Надеваемая",
+        "template": "Ноги",
+        "big": false
+    },
+    "strongest": "2"
+}

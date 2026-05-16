@@ -1,0 +1,16 @@
+{
+    "abstractData": {
+        "name": "Бигфут",
+        "description": "+3 против дварфов и хафлингов",
+        "cardType": "Монстр",
+        "img": "",
+        "cost": 0
+    },
+    "monster": {
+        "get_lvls": 1,
+        "strongest": "12",
+        "gold": "3",
+        "undead": false,
+        "punishment": "Наступает на тебя и съедает шляпу. Потеряй надетый головняк"
+    }
+}

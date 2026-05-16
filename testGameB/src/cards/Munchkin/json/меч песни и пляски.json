@@ -1,0 +1,15 @@
+{
+    "abstractData": {
+        "name": "меч песни и пляски",
+        "description": "Не для воров",
+        "cardType": "Сокровище",
+        "img": "",
+        "cost": "400"
+    },
+    "data": {
+        "treasureType": "Надеваемая",
+        "template": "Рука",
+        "big": false
+    },
+    "strongest": "2"
+}

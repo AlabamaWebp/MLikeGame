@@ -1,0 +1,15 @@
+{
+    "abstractData": {
+        "name": "Огромный камень",
+        "description": "",
+        "cardType": "Сокровище",
+        "img": "",
+        "cost": 0
+    },
+    "data": {
+        "treasureType": "Надеваемая",
+        "template": "Рука",
+        "big": true
+    },
+    "strongest": "3"
+}

@@ -1,0 +1,103 @@
+<div class="wrapper create">
+    <h1>Создание карты</h1>
+    <mat-form-field>
+        <mat-label>Название</mat-label>
+        <input type="text" matInput [(ngModel)]="abstractData.name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Описание</mat-label>
+        <textarea matInput [(ngModel)]="abstractData.description"></textarea>
+    </mat-form-field>
+    <p>МонстрБаф - Усиление/ослабление МОНСТРА</p>
+    <mat-form-field>
+        <mat-label>Тип карты</mat-label>
+        <mat-select [value]="abstractData.cardType">
+            @for (food of types; track food) {
+            <mat-option (click)="changeType(food)" [value]="food">{{food}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <!-- <mat-form-field>
+        <mat-label>Имя файла с картинкой</mat-label>
+        <input matInput [(ngModel)]="abstractData.img">
+    </mat-form-field> -->
+    @switch (abstractData.cardType) {
+        @case ("Монстр") {
+            <mat-form-field>
+                <mat-label>Получаемые c монстра уровни</mat-label>
+                <input matInput [(ngModel)]="MonsterData.get_lvls">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Получаемые сокровщиа с монстра</mat-label>
+                <input matInput [(ngModel)]="MonsterData.gold">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Сила монстра</mat-label>
+                <input matInput [(ngModel)]="MonsterData.strongest">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Непотребство</mat-label>
+                <input matInput [(ngModel)]="MonsterData.punishment">
+            </mat-form-field>
+            <p><mat-checkbox [(ngModel)]="MonsterData.undead">
+                Андед
+            </mat-checkbox></p>
+        }
+        @case ("МонстрБаф") {
+            <mat-form-field>
+                <mat-label>Получаемые c монстра уровни (1 или -1 например)</mat-label>
+                <input matInput [(ngModel)]="monsterBuff">
+            </mat-form-field>
+        }
+        @case ("Сокровище") {
+            <mat-form-field>
+                <mat-label>Стоимость</mat-label>
+                <input matInput [(ngModel)]="abstractData.cost">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Тип сокровища</mat-label>
+                <mat-select [(ngModel)]="TreasureData.treasureType">
+                    @for (food of tresTypes; track food) {
+                        <mat-option [value]="food">{{food}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Куда кладётся</mat-label>
+                <mat-select [(ngModel)]="TreasureData.template">
+                    @for (food of templateTypes; track food) {
+                        <mat-option [value]="food">{{food}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Сила (Мощь)</mat-label>
+                <input matInput [(ngModel)]="strongest">
+            </mat-form-field>
+            <p><mat-checkbox [(ngModel)]="TreasureData.big">
+                Большая
+            </mat-checkbox></p>
+        }
+        @case ("Класс") {
+            <mat-checkbox [(ngModel)]="is_super">
+                Суперманчкин
+            </mat-checkbox>
+        }
+        @case ("Раса") {
+            <mat-checkbox [(ngModel)]="is_super">
+                Полукровка
+            </mat-checkbox>
+        }
+    }
+    <button mat-flat-button  (click)="getCard()">Скачать</button>
+    <!-- <mat-button-toggle-group>
+        <mat-button-toggle>Дверь</mat-button-toggle>
+        <mat-button-toggle>Сокровище</mat-button-toggle>
+    </mat-button-toggle-group> -->
+
+</div>
+<!-- <ng-template #class_or_rase>
+    <mat-checkbox [(ngModel)]="is_super">
+        Суперманчкин || Полукровка
+    </mat-checkbox>
+</ng-template> -->

@@ -1,0 +1,15 @@
+{
+    "abstractData": {
+        "name": "Халфлингский сендвич",
+        "description": "только для халфлингов",
+        "cardType": "Сокровище",
+        "img": "",
+        "cost": "400"
+    },
+    "data": {
+        "treasureType": "Надеваемая",
+        "template": "Рука",
+        "big": false
+    },
+    "strongest": "3"
+}

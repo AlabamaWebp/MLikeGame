@@ -1,0 +1,16 @@
+{
+    "abstractData": {
+        "name": "Конь андедный",
+        "description": "+5 против дварфов",
+        "cardType": "Монстр",
+        "img": "",
+        "cost": 0
+    },
+    "monster": {
+        "get_lvls": 1,
+        "strongest": "4",
+        "gold": "2",
+        "undead": true,
+        "punishment": "Лягает, кусает и жутко воняет. Потеряй 2 уровня"
+    }
+}

@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Сколько золота отдашь?</h2>
+<mat-dialog-content>
+    <mat-button-toggle-group #group1="matButtonToggleGroup" #s [(value)]="num">
+        @for (i of mass; track $index) {
+            <mat-button-toggle [value]="i" (click)="select(i)">{{i}}</mat-button-toggle>
+        }
+    </mat-button-toggle-group>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="close1()">Я подумаю</button>
+    <button mat-button (click)="close1(true)" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

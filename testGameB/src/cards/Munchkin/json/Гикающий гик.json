@@ -1,0 +1,16 @@
+{
+    "abstractData": {
+        "name": "Гикающий гик",
+        "description": "+6 против воинов",
+        "cardType": "Монстр",
+        "img": "",
+        "cost": 0
+    },
+    "monster": {
+        "get_lvls": 1,
+        "strongest": "6",
+        "gold": "2",
+        "undead": false,
+        "punishment": "Стань нормальным. Сбрось из игры все свои расы и классы"
+    }
+}

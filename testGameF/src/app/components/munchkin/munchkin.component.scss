@@ -1,0 +1,140 @@
+@import "../../styles/vars.scss";
+.header {
+    justify-content: space-between;
+    .players {
+        flex: 1 1 auto;
+    }
+    .stats {
+        // color: white;
+        flex: 0 0 100px;
+        background-color: #fff1e3;
+        border-radius: 10px;
+        padding: 0 10px 0 0;
+    }
+    display: flex;
+    width: 100%;
+    height: 100px;
+}
+.footer {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+}
+.cards {
+    display: flex;
+    // justify-content: center;
+    width: 100%;
+    overflow: auto;
+    .card {
+        margin: 0 10px 0 0;
+    }
+}
+.gap {
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.main {
+    display: flex;
+    width: 100%;
+    .game_center {
+        flex: 1 1 auto;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        overflow: auto;
+        .field {
+            flex: 1 1 auto;
+            height: 100%;
+            padding: 5px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #fff1e340;
+            border: 3px solid #5923237d;
+            // margin: 10px;
+            border-radius: 10px;
+            // background-color: $door;
+            .monsters {
+                width: 100%;
+            }
+            .players {
+                width: 100%;
+            }
+        }
+        .log {
+            flex: 0 0 300px;
+            // width: 300px;
+            height: 100%;
+            padding: 10px;
+            // border-left: 3px white solid;
+            overflow: auto;
+            div,
+            li {
+                background-color: $treasure;
+            }
+        }
+    }
+    .pereferia {
+        flex: 0 0 150px;
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        justify-content: space-around;
+    }
+}
+.condition {
+    position: fixed;
+    left: 50%;
+    top: 5px;
+    transform: translateX(-50%);
+    background-color: rgb(170, 18, 18);
+    color: white;
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    animation: op .2s;
+    z-index: 10;
+    font-size: 20px;
+}
+@keyframes op {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.podsvet {
+    box-shadow: 0px 0px 3px 3px yellow;
+    border-radius: 10px;
+}
+.bgcont {
+    background-color: $door;
+    border-radius: 10px;
+    padding: 6px 10px;
+    margin: 5px 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: start;
+    justify-content: start;
+    overflow: hidden;
+}
+.menu {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    button {
+        margin: 0 0 5px;
+    }
+}
+.card_height {
+    height: $cardHeight;
+}
+.only_info {
+    width: 100%;
+    display: block;
+}

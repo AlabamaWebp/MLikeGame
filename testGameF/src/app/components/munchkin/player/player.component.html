@@ -1,0 +1,133 @@
+@if (data) {
+@if (only_info) {
+<ng-container [ngTemplateOutlet]="podrobno"></ng-container>
+}
+@else {
+<div class="player" (click)="info = true">
+  <span>{{ data.name }}</span>
+  <span>lvl: {{ data.lvl }}</span>
+  <span>{{ data.sex }}</span>
+  <span>Очередь: {{ data.queue }}</span>
+</div>
+@if (info) {
+<div class="backdrop" (click)="closeBackdrop($event, b1)" #b1 [class.vhidden]="hide_parent">
+  <ng-container [ngTemplateOutlet]="podrobno"></ng-container>
+</div>
+}}}
+
+
+
+<ng-template #rases let-z="z">
+  <div class="r" [class.zatmenie]="z" (click)="closeBackdrop($event, b21, true)" #b21>
+    <span class="head_title">Раса</span>
+    <div class="flex">
+      <div class="card1">
+        <span class="title">Первая</span>
+        <app-card [data]="data.d_field.rasses.first" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"
+          (click)="useCardMesto('first')"></app-card>
+      </div>
+      <div class="card1 pozadi">
+        <span class="title">Полукровка</span>
+        <app-card [data]="data.d_field.rasses.bonus" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"></app-card>
+        <!-- (click)="useCardMesto('bonus')" -->
+      </div>
+      <div class="card1">
+        <span class="title">Вторая</span>
+        <app-card [data]="data.d_field.rasses.second" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"
+          (click)="useCardMesto('second')"></app-card>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #classes let-z="z">
+  <div class="r" [class.zatmenie]="z" (click)="closeBackdrop($event, b22, true)" #b22>
+    <span class="head_title">Класс</span>
+    <div class="flex">
+      <div class="card1">
+        <span class="title">Первая</span>
+        <app-card [data]="data.d_field.classes.first" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"
+          (click)="useCardMesto('first')"></app-card>
+      </div>
+      <div class="card1 pozadi">
+        <span class="title">Суперманчкин</span>
+        <app-card [data]="data.d_field.classes.bonus" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"></app-card>
+        <!-- (click)="useCardMesto('bonus')" -->
+      </div>
+      <div class="card1">
+        <span class="title">Вторая</span>
+        <app-card [data]="data.d_field.classes.second" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"
+          (click)="useCardMesto('second')"></app-card>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #cards>
+  <div class="r m15">
+    <span>Шлем</span>
+    @for (item of data.t_field.helmet; track $index) {
+    <app-card [data]="item" [treasure]="true" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"></app-card>
+    } @empty {<app-card [treasure]="true"></app-card>}
+  </div>
+  <div class="r m15">
+    <span>Броня</span>
+    @for (item of data.t_field.body; track $index) {
+    <app-card [data]="item" [treasure]="true" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"></app-card>
+    } @empty {<app-card [treasure]="true"></app-card>}
+  </div>
+  <div class="r m15">
+    <span>Обувь</span>
+    @for (item of data.t_field.legs; track $index) {
+    <app-card [data]="item" [treasure]="true" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"></app-card>
+    } @empty {<app-card [treasure]="true"></app-card>}
+  </div>
+  <div class="r m15">
+    <span>Руки</span>
+    @for (item of data.t_field.arm; track $index) {
+    <app-card [data]="item" [treasure]="true" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"></app-card>
+    } @empty {<app-card [treasure]="true"></app-card>}
+  </div>
+  <div class="r m15">
+    <span>Рядом</span>
+    @for (item of data.t_field.other; track $index) {
+    <app-card [data]="item" [treasure]="true" [can_sbros]="can_sbros" (sbros)="sbrosEquip($event)"></app-card>
+    } @empty {
+    <app-card [treasure]="true"></app-card>
+    }
+  </div>
+</ng-template>
+
+
+<ng-template #podrobno>
+  <div class="podrobnee">
+    <div class="flex">
+      <ng-container [ngTemplateOutlet]="rases"></ng-container>
+      @if (dataMesto?.type == 'Раса') {
+      <ng-container [ngTemplateOutlet]="rases" [ngTemplateOutletContext]="{ z: true }"></ng-container>}
+      <div class="stats player">
+        <span class="name">{{ data.name }}</span>
+        <span>lvl: {{ data.lvl }}</span>
+        <span>Сила: {{ data.power }}</span>
+        <span>{{ data.sex }}</span>
+        <span>Очередь: {{ data.queue }}</span>
+        @if (data.max_cards != 5){
+        <span>Макс карт: {{ data.max_cards }}</span>
+        } @if (data.coins) {
+        <span>Монетки: {{ data.coins }}</span>
+        } @if (is_help) {
+        <button mat-raised-button class="btnpomoch" (click)="openHelpDialog()">
+          ПОМОГИ МНЕ!!!
+        </button>
+        }
+      </div>
+
+      <ng-container [ngTemplateOutlet]="classes"></ng-container>
+      @if (dataMesto?.type == 'Класс') {
+      <ng-container [ngTemplateOutlet]="classes" [ngTemplateOutletContext]="{ z: true }"></ng-container>}
+    </div>
+    <div class="flex treasures jcsb">
+      <ng-container [ngTemplateOutlet]="cards"></ng-container>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,31 @@
+<div class="wrapper">
+    <div class="header center">
+        <h3>
+            {{data?.name}}, Игроков: {{data?.maxPlayers}} <button mat-flat-button (click)="roomOut()">Выйти</button>
+        </h3>
+    </div>
+    <div class="main center full overflow">
+        <div class="flex wrap">
+            @for (item of data?.players; track $index) {
+            <div class="player">
+                <h3>{{item.nickname}}</h3>
+                <mat-button-toggle-group #group1="matButtonToggleGroup" [value]="item.sex" [disabled]="!item.you"
+                    (change)="clickSex(group1.value)">
+                    <mat-button-toggle value="Мужчина">Мужчина</mat-button-toggle>
+                    <mat-button-toggle value="Женщина">Женщина</mat-button-toggle>
+                </mat-button-toggle-group>
+                <mat-button-toggle-group #group2="matButtonToggleGroup" [value]="item.ready" [disabled]="!item.you"
+                    (change)="clickReady(group2.value)">
+                    <mat-button-toggle [value]="true">Готов</mat-button-toggle>
+                    <mat-button-toggle [value]="false">Не готов</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            }
+        </div>
+        <!-- @empty {
+        <div class="center full">
+            <h3>Комнат нет</h3>
+        </div>
+        } -->
+    </div>
+</div>

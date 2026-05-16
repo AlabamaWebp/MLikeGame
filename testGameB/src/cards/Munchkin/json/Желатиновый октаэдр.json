@@ -1,0 +1,16 @@
+{
+    "abstractData": {
+        "name": "Желатиновый октаэдр",
+        "description": "У тебя +1 на смывку.",
+        "cardType": "Монстр",
+        "img": "",
+        "cost": 0
+    },
+    "monster": {
+        "get_lvls": 1,
+        "strongest": "2",
+        "gold": 1,
+        "undead": false,
+        "punishment": "Сбрось все свои большие шмотки"
+    }
+}

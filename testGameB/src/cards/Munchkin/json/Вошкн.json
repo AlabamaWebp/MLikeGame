@@ -1,0 +1,16 @@
+{
+    "abstractData": {
+        "name": "Вошкн",
+        "description": "Смыться от них нельзя",
+        "cardType": "Монстр",
+        "img": "",
+        "cost": 0
+    },
+    "monster": {
+        "get_lvls": 1,
+        "strongest": 1,
+        "gold": 1,
+        "undead": false,
+        "punishment": "Сбрось броник и все шмотки, надетые ниже пояса"
+    }
+}

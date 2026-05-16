@@ -1,0 +1,73 @@
+<div class="wrapper">
+    <div class="header">
+        <span class="nickname">{{nickname}}</span>
+        <button mat-raised-button (click)="creating = true">
+            Создать комнату
+        </button>
+        <button mat-raised-button (click)="changeNickname()">
+            Сменить ник (Выйти)
+        </button>
+
+    </div>
+    <div class="main">
+        @for (item of rooms; track $index) {
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    {{item.name}}
+                </mat-card-title>
+                <mat-card-content>
+                    Максимум игроков: {{item.maxPlayers}}
+                </mat-card-content>
+            </mat-card-header>
+            <mat-card-content>
+                {{item.players}}
+                <!-- @for (players of item.players; track $index) {} -->
+            </mat-card-content>
+            <mat-card-actions>
+                @if (item.canIn && item.maxPlayers != item.players.length) {
+                <button mat-button (click)="roomIn(item.name)">Войти</button>
+                }
+                @if (item.creator && item.players.length == 0) {
+                <button mat-button (click)="deleteR(item.name)">Удалить</button>
+                }
+            </mat-card-actions>
+        </mat-card>
+        }@empty {
+        <div class="center full">
+            <h3>Комнат нет</h3>
+        </div>
+        }
+    </div>
+</div>
+@if (creating) {
+<div class="backdrop">
+    <mat-card style="padding: 20px;">
+        <mat-card-header>
+            <mat-card-title>
+                <h2>Создание комнаты</h2>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="vertical" style="display: flex;">
+            <!-- <mat-form-field class="formField">
+                    <mat-label>Название</mat-label>
+                    <input matInput type="text" #name required>
+                </mat-form-field> -->
+            <span>Игроков:</span>
+            <mat-button-toggle-group #group="matButtonToggleGroup">
+                <mat-button-toggle value="1">1</mat-button-toggle>
+                <mat-button-toggle value="2">2</mat-button-toggle>
+                <mat-button-toggle value="3">3</mat-button-toggle>
+                <mat-button-toggle value="4">4</mat-button-toggle>
+                <mat-button-toggle value="5">5</mat-button-toggle>
+                <mat-button-toggle value="6">6</mat-button-toggle>
+            </mat-button-toggle-group>
+        </mat-card-content>
+        <mat-card-actions>
+            <!-- name.value,   && !name.value.length  -->
+            <button mat-button (click)="create(group.value)" [disabled]="!group.value">Создать</button>
+            <button mat-button (click)="creating = false">Назад</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
+}

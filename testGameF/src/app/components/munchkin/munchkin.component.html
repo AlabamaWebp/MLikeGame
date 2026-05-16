@@ -1,0 +1,103 @@
+@if (data) {
+<div class="wrapper">
+    @if (condition) {
+    <div class="condition" (click)="condition = undefined">
+        {{condition}}
+        <!-- <mat-icon (click)="condition = undefined">clear</mat-icon> -->
+    </div>
+    }
+    <header class="header">
+        <div class="players">
+            @for (item of data.players; track item) {
+            <app-player [data]="item" [is_help]="data.is_help ? (data.field.fight?.gold ?? false) : false"></app-player>
+            }
+        </div>
+        <div class="stats flex center">
+            <app-player [data]="you" [dataMesto]="dataMesto" (close)="closeYou()"
+                [can_sbros]="!data.is_fight"></app-player>
+            <mat-checkbox [checked]="show_stats" (change)="statsToggle($event.checked)">Показывать экипировку</mat-checkbox>
+        </div>
+    </header>
+    <main class="main">
+        <div class="left pereferia">
+            <app-card [class.podsvet]="data.you_hodish && (step == 0 || step == 1)" (click)="getDoorCard()"></app-card>
+            <span>Колода</span>
+            <app-card [treasure]="true"></app-card>
+        </div>
+        <div class="game_center">
+            <div class="log">
+                @for (item of log_; track item) {
+                <div class="bgcont" @height>
+                    {{item}}
+                </div>
+                }
+            </div>
+            @if (show_stats && !data.field.is_fight) {
+            <app-player [data]="you" [only_info]="true"></app-player>
+            }
+            @else {
+            <div class="field">
+                @if (data.field.fight) {
+                <div class="monsters">
+                    <span class="bgcont">
+                        Сила стороны: {{data.field.fight.monsterStrongest}}
+                        На кону: {{data.field.fight.gold ?? 1}} Сокровищ, {{data.field.fight.lvls}} Уровней
+                    </span>
+                    <div class="osn">
+                        @for (item of data.field.fight.monsters; track item) {
+                        <app-card [data]="item"></app-card>
+                        }
+                    </div>
+                </div>
+                <div class="players">
+                    <div class="osn">
+                        <app-player [data]="data.field.fight.players.main.player"></app-player>
+                        @if (data.field.fight.players.secondary)
+                        {<app-player [data]="data.field.fight.players.secondary.player"></app-player>}
+                        <span class="bgcont">Сила стороны: {{data.field.fight.players.strongest}} </span>
+                    </div>
+                </div>
+                }
+                @else {
+                <div class="cards gap">
+                    @for (item of data.field.openCards; track item) {
+                    <app-card class="card" [data]="item"></app-card>
+                    }
+                </div>
+                }
+            </div>
+            }
+
+        </div>
+        <div class="right pereferia">
+            <app-card></app-card>
+            <span>Сброс</span>
+            <app-card [treasure]="true"></app-card>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="menu">
+            @if (!data.end) {
+            <button mat-raised-button [disabled]="canEnd()" (click)="endHod()">Конец хода</button>
+            <button mat-raised-button [disabled]="!data.pas" (click)="setPas()">Я пас</button>
+            <button mat-raised-button [disabled]="!data.smivka" (click)="smivka()">Бросок смывки</button>
+            <button mat-raised-button [disabled]="!data.help_ask" (click)="openHelpDialog()">Мольба</button>
+            }
+            @else {
+            <button mat-raised-button (click)="end()">В меню</button>
+            }
+        </div>
+        <div class="cards">
+            @for (item of data.you.cards; track item) {
+            <app-card class="card" [data]="item" [can_sbros]="data.step == 3" (use_mesto)="useCardMesto($event)"
+                (use_card)="useCard($event)" (sbros)="sbros($event)" [main]="!data.end"></app-card>
+            }
+        </div>
+    </footer>
+</div>
+}
+@else {
+<div class="backdrop">
+    <span style="color: white;">Загрузка...</span>
+</div>
+}
