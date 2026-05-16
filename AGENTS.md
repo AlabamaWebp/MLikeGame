@@ -10,8 +10,8 @@
 
 ## Структура
 
-- `testGameF` - Angular frontend.
-- `testGameB` - NestJS backend.
+- `frontend` - Angular frontend.
+- `backend` - NestJS backend.
 - `docs` - документация по логике и контрактам.
 
 Frontend и backend - отдельные проекты со своими `package.json`, lock-файлами и git-репозиториями.
@@ -20,19 +20,19 @@ Frontend и backend - отдельные проекты со своими `packa
 
 Ключевые файлы:
 
-- `testGameF/src/app/services/websocket.service.ts` - HTTP и Socket.IO клиент, базовый URL backend.
-- `testGameF/src/app/app.routes.ts` - маршруты экранов.
-- `testGameF/src/app/components/nickname/` - ввод nickname и проверка через HTTP.
-- `testGameF/src/app/components/home/` - экран комнат.
-- `testGameF/src/app/components/lobby/` - экран лобби.
-- `testGameF/src/app/components/munchkin/` - экран игры, получение `refreshGame`, отправка игровых действий.
-- `testGameF/src/app/components/munchkin/card/` - отображение карт и действия с картой.
-- `testGameF/src/app/components/munchkin/player/` - отображение игрока, экипировки и просьб о помощи.
+- `frontend/src/app/services/websocket.service.ts` - HTTP и Socket.IO клиент, базовый URL backend.
+- `frontend/src/app/app.routes.ts` - маршруты экранов.
+- `frontend/src/app/components/nickname/` - ввод nickname и проверка через HTTP.
+- `frontend/src/app/components/home/` - экран комнат.
+- `frontend/src/app/components/lobby/` - экран лобби.
+- `frontend/src/app/components/munchkin/` - экран игры, получение `refreshGame`, отправка игровых действий.
+- `frontend/src/app/components/munchkin/card/` - отображение карт и действия с картой.
+- `frontend/src/app/components/munchkin/player/` - отображение игрока, экипировки и просьб о помощи.
 
 Команды:
 
 ```bash
-cd testGameF
+cd frontend
 npm install
 npm run start
 npm run build
@@ -41,29 +41,29 @@ npm run test
 
 В Windows PowerShell при блокировке `npm.ps1` используйте `npm.cmd`, например `npm.cmd run build`.
 
-В `testGameF/package.json` сейчас нет script `lint`.
+В `frontend/package.json` сейчас нет script `lint`.
 
 ## Backend
 
 Ключевые файлы:
 
-- `testGameB/src/main.ts` - NestJS bootstrap, HTTP порт `3000`.
-- `testGameB/src/websocket/websocket.controller.ts` - Socket.IO gateway на порту `3001` и все входные события.
-- `testGameB/src/http/nickname/nickname.controller.ts` - `POST /nickname`.
-- `testGameB/src/websocket/data/data.service.ts` - подключенные клиенты.
-- `testGameB/src/websocket/lobby/lobby.service.ts` - комнаты и лобби.
-- `testGameB/src/websocket/munchkin/munchkin.service.ts` - активные игры.
-- `testGameB/src/data/main.ts` - глобальный игрок и лобби.
-- `testGameB/src/data/munchkin/mucnhkinGame.ts` - состояние партии.
-- `testGameB/src/data/munchkin/player.ts` - игрок внутри партии.
-- `testGameB/src/data/munchkin/gameHelpers/` - логика хода, боя, помощи, карт и рассылки состояния.
-- `testGameB/src/data/munchkin/interfaces/` - backend-типы карт, поля и состояния игры.
-- `testGameB/src/cards/Munchkin/` - карты и загрузка JSON-карт.
+- `backend/src/main.ts` - NestJS bootstrap, HTTP порт `3000`.
+- `backend/src/websocket/websocket.controller.ts` - Socket.IO gateway на порту `3001` и все входные события.
+- `backend/src/http/nickname/nickname.controller.ts` - `POST /nickname`.
+- `backend/src/websocket/data/data.service.ts` - подключенные клиенты.
+- `backend/src/websocket/lobby/lobby.service.ts` - комнаты и лобби.
+- `backend/src/websocket/munchkin/munchkin.service.ts` - активные игры.
+- `backend/src/data/main.ts` - глобальный игрок и лобби.
+- `backend/src/data/munchkin/mucnhkinGame.ts` - состояние партии.
+- `backend/src/data/munchkin/player.ts` - игрок внутри партии.
+- `backend/src/data/munchkin/gameHelpers/` - логика хода, боя, помощи, карт и рассылки состояния.
+- `backend/src/data/munchkin/interfaces/` - backend-типы карт, поля и состояния игры.
+- `backend/src/cards/Munchkin/` - карты и загрузка JSON-карт.
 
 Команды:
 
 ```bash
-cd testGameB
+cd backend
 npm install
 npm run start
 npm run start:dev
@@ -106,13 +106,13 @@ npm run lint
 Перед финальным отчетом по возможности запустите релевантные проверки:
 
 ```bash
-cd testGameF
+cd frontend
 npm run build
 npm run test
 ```
 
 ```bash
-cd testGameB
+cd backend
 npm run build
 npm run test
 ```
@@ -120,7 +120,7 @@ npm run test
 Backend lint:
 
 ```bash
-cd testGameB
+cd backend
 npm run lint
 ```
 
