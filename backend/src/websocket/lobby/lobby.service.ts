@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { Lobby, PlayerGlobal } from '../../data/main';
+import type { HomeRoomDto } from '@shared';
 import { Socket } from "socket.io"
+import { Lobby, PlayerGlobal } from '../../data/main';
 import { DataService } from '../data/data.service';
+
 @Injectable()
 export class LobbyService {
-    // events: refreshLobby,  МОИ ИВЕНТЫ
+    private lobbys: Map<string, Lobby> = new Map();
+
     constructor(private data: DataService,) { }
-    private lobbys: Map<any, Lobby> = new Map();
-    getLobbys(player: PlayerGlobal) {
-        let tmp: any[] = [];
+
+    getLobbys(player: PlayerGlobal): HomeRoomDto[] {
+        const rooms: HomeRoomDto[] = [];
         this.lobbys.forEach((value: Lobby) => {
-            tmp.push(value.homeGetRoom(player));
+            rooms.push(value.homeGetRoom(player));
         })
-        return tmp;
-    } // По идее готовый вывод лобби
+        return rooms;
+    }
 
     getOneLobby(name: string) {
         return this.lobbys.get(name);
@@ -21,50 +24,48 @@ export class LobbyService {
 
     createLobby(name: string, max: number, socket: Socket, nickname: string) {
         if (this.lobbys.get(name)) {
-            console.log("Комната созданная вами уже есть");
             return "Комната созданная вами уже есть";
         }
         this.lobbys.set(name, new Lobby(name, max, socket, nickname));
         return true;
-    } // Создание лобби
+    }
 
     deleteLobby(name: string, client: Socket) {
-        const tmp = this.getOneLobby(name);
+        const lobby = this.getOneLobby(name);
         const player = this.data.getClient(client)
-        if (tmp) {
-            if (tmp.getPlayersLenght().count) {
+        if (lobby) {
+            if (lobby.getPlayersLenght().count) {
                 return "В комнате есть игроки"
             }
-            if (player.name !== tmp.creator.name) {
+            if (player.name !== lobby.creator.name) {
                 return "Вы не создатель комнаты"
             }
             this.lobbys.delete(name);
             return true;
         }
-        else return "Нет такой комнаты"
-    } // Удаление лобби
+        else return "Нет такоР№ комнаты"
+    }
 
     refreshOneLobby(roomName: string,) {
         const lobby = this.getOneLobby(roomName);
-        lobby?.getLobbySocket().forEach(el => {
-            el?.emit("statusLobby", lobby.lobbyGetRoom(this.data.getClient(el)))
+        lobby?.getLobbySocket().forEach(socket => {
+            socket?.emit("statusLobby", lobby.lobbyGetRoom(this.data.getClient(socket)))
         })
     }
 
     lobbyGameStart(roomName: string,) {
         const lobby = this.getOneLobby(roomName);
-        lobby?.getLobbySocket().forEach(el => el?.emit("allReady"))
+        lobby?.getLobbySocket().forEach(socket => socket?.emit("allReady"))
         this.lobbys.delete(roomName);
     }
 
-    roomIn(socket: Socket, roomName: string) { // Войти в лобби
+    roomIn(socket: Socket, roomName: string) {
         const client = this.data.getClient(socket);
         const lobby = this.getOneLobby(roomName);
         if (!lobby || !client)
             return "Что-то не так"
         else if (client.position !== "home")
-            return "Ошибка позиции"
+            return "ОС€ибка позиции"
         return lobby.in(client);
     }
-
 }

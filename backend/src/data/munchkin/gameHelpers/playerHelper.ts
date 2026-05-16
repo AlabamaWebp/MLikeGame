@@ -57,7 +57,7 @@ export class PlayerHelper {
         this.log.unshift(l);
         this.plusLog(l);
     }
-    private broadcast(e: string, d: any) { this.game.players.forEach((el: PlayerGame) => { el.player.socket.emit(e, d) }) }
+    private broadcast(e: string, d: unknown) { this.game.players.forEach((el: PlayerGame) => { el.player.socket.emit(e, d) }) }
     allPlayersRefresh() { this.game.players.forEach((el: PlayerGame) => { el.player.socket.emit("refreshGame", this.getMainForPlayer(el)) }) }
     onePlayerRefresh(player: PlayerGame) { player?.player?.socket?.emit("refreshGame", this.getMainForPlayer(player)); }
     plusLog(d: string) { this.broadcast("plusLog", d) }

@@ -1,9 +1,9 @@
-import type { Sex } from "../game/statuses";
+﻿import type { Sex } from "../game/statuses";
 
 export interface AbstractCardDataDto {
   name: string;
   description: string;
-  cardType: DoorCardType | "Сокровище" | "РЎРѕРєСЂРѕРІРёС‰Рµ";
+  cardType: DoorCardType | "Сокровище";
   img?: string;
   cost?: number;
 }
@@ -16,12 +16,12 @@ export interface MonsterDataDto {
 }
 
 export interface TreasureDataDto {
-  treasureType: "Надеваемая" | "Используемая" | "Боевая" | "РќР°РґРµРІР°РµРјР°СЏ" | "РСЃРїРѕР»СЊР·СѓРµРјР°СЏ" | "Р‘РѕРµРІР°СЏ";
-  template?: "Шлем" | "Броник" | "Ноги" | "Рука" | "2 Руки" | "3 Руки" | "Рядом" | "РЁР»РµРј" | "Р‘СЂРѕРЅРёРє" | "РќРѕРіРё" | "Р СѓРєР°" | "2 Р СѓРєРё" | "3 Р СѓРєРё" | "Р СЏРґРѕРј";
+  treasureType: "Надеваемая" | "Используемая" | "Боевая";
+  template?: "Шлем" | "Броник" | "Ноги" | "Рука" | "2 Руки" | "3 Руки" | "Рядом";
   big?: boolean;
 }
 
-export type DoorCardType = "Класс" | "Раса" | "Проклятие" | "Монстр" | "МонстрБаф" | "РљР»Р°СЃСЃ" | "Р Р°СЃР°" | "РџСЂРѕРєР»СЏС‚РёРµ" | "РњРѕРЅСЃС‚СЂ" | "РњРѕРЅСЃС‚СЂР‘Р°С„";
+export type DoorCardType = "Класс" | "Раса" | "Проклятие" | "Монстр" | "МонстрБаф";
 
 export interface TreasureCardDto {
   abstractData: AbstractCardDataDto;
@@ -130,7 +130,7 @@ export interface MunchkinOutputDto {
 
 export interface CardTargetDto {
   id: number;
-  type: "Класс" | "Раса" | "РљР»Р°СЃСЃ" | "Р Р°СЃР°";
+  type: "Класс" | "Раса";
 }
 
 export interface UseCardPlaceDto {

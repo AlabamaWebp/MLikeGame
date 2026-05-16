@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { WebsocketService } from '../../services/websocket.service';
-import { NavigationStart, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonModule } from '@angular/material/button';
-import type { LobbyRoomDto, Sex } from '@shared';
+import type { ClientSocketEventName, LobbyRoomDto, Sex } from '@shared';
 
 @Component({
   selector: 'app-lobby',
@@ -37,7 +37,7 @@ export class LobbyComponent {
     this.router.navigate(["home"]);
   }
   ngOnDestroy() {
-    const events = [
+    const events: ClientSocketEventName[] = [
       "statusLobby",
       "allReady"
     ]

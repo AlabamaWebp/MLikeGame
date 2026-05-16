@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { WebsocketService } from '../../services/websocket.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
+import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
   selector: 'app-nickname',
@@ -15,42 +15,31 @@ import { Router } from '@angular/router';
   styleUrl: './nickname.component.scss'
 })
 export class NicknameComponent {
-  control = new FormControl('', [Validators.required,]);
+  control = new FormControl('', [Validators.required]);
+  answer: string | boolean | undefined = "Этот ник уже используется";
+
   constructor(private webs: WebsocketService, private router: Router) { }
+
   ngOnInit() {
-    const n = localStorage.getItem("nickname");
-    if (n) this.control.setValue(n);
-    
+    const nickname = localStorage.getItem("nickname");
+    if (nickname) this.control.setValue(nickname);
     this.webs.disconnect()
   }
-  answer: string | boolean | undefined = "Этот ник уже используется";
+
   click() {
-    // this.webs.on("statusName", (d: any) => { this.changeAnswer(d) });
     const name = this.control.value as string;
-    this.webs.checkNickname(name).subscribe(el => {
-      if (el === true) {
-        
-        localStorage.setItem("nickname", name);
-        this.webs.connect(name)
-        this.router.navigate(["home"])
-      }
-      else {
-        console.log(el);
-        this.control.setErrors({"incorrect": true})
-      }
-    },
-    (err) => {console.log(err);
+    this.webs.checkNickname(name).subscribe({
+      next: (isAvailable) => {
+        if (isAvailable) {
+          localStorage.setItem("nickname", name);
+          this.webs.connect(name)
+          this.router.navigate(["home"])
+          return;
+        }
+
+        this.control.setErrors({ "incorrect": true })
+      },
+      error: () => this.control.setErrors({ "incorrect": true })
     })
-    // this.webs.emit("setName", this.control.value);
   }
-  // changeAnswer(d: any) {
-  //   if (d === "home"){
-  //     localStorage.setItem("nickname", this.control.value as string)
-  //     this.router.navigate(["home"])
-  //   }
-  //   else if (typeof d === "string") {
-  //     this.answer = d;
-  //     this.control.setErrors({"incorrect": true})
-  //   }
-  // }
 }

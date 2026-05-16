@@ -1,8 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { WebsocketService } from '../../../services/websocket.service';
-import { CommonModule } from '@angular/common';
 import type { CardDto, CardTargetDto, DoorCardDto, TreasureCardDto } from '@shared';
+import { WebsocketService } from '../../../services/websocket.service';
 
 @Component({
   selector: 'app-card',
@@ -10,73 +10,72 @@ import type { CardDto, CardTargetDto, DoorCardDto, TreasureCardDto } from '@shar
   imports: [MatButton, CommonModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
-  animations: [
-    // trigger("width", [
-    //   transition(":leave", [animate(300, style({ width: 0, opacity: 0 }))])
-    // ])
-  ]
 })
 export class CardComponent {
-
-  constructor(private webs: WebsocketService) { }
-  @Input() data: AbstractCard | any = undefined
-  @Input() treasure: boolean = false;
-  @Input() can_sbros: boolean = false;
-  @Input() can_sell: boolean = false;
-  @Input() main: boolean = false;
+  @Input() data: AbstractCard | undefined = undefined;
+  @Input() treasure = false;
+  @Input() can_sbros = false;
+  @Input() can_sell = false;
+  @Input() main = false;
 
   @Output() use_mesto = new EventEmitter<toPlayer>();
   @Output() use_card = new EventEmitter<number>();
   @Output() sbros = new EventEmitter<number>();
 
-  useCard() {
-    const id = this.data.id
-    if (this.is_mesto && !this.treasure) {
-      const tmp: toPlayer = {
-        id: id,
-        type: this.data.abstractData.cardType
-      }
-      this.use_mesto.emit(tmp);
-      setTimeout(() => {
-        this.podrobnee = false;
-      }, 1);
-    }
-    else this.use_card.emit(id)
-  }
-  sbrosCard() { this.sbros.emit(this.data.id); }
-  sellCard() { this.webs.emit("sellCard", this.data.id); }
+  is_mesto = false;
+  tCard: TreasureCard | undefined;
+  dCard: DoorCard | undefined;
+  podrobnee = false;
+
+  constructor(private webs: WebsocketService) { }
+
   ngOnInit() {
     if (this.data?.abstractData.cardType == "Сокровище") {
       this.treasure = true;
-      this.tCard = this.data;
+      this.tCard = this.data as TreasureCard;
+      return;
     }
-    else {
-      if (
-        !this.data?.is_super
-        && (this.data?.abstractData.cardType == "Класс"
-          || this.data?.abstractData.cardType == "Раса")
-      )
-        this.is_mesto = true;
-      this.dCard = this.data;
-    }
+
+    if (!this.data) return;
+
+    const cardType = this.data.abstractData.cardType;
+    this.is_mesto = isDoorCard(this.data) && !this.data.is_super && isCardTargetType(cardType);
+    this.dCard = this.data as DoorCard;
   }
 
-  is_mesto = false;
+  useCard() {
+    if (!this.data) return;
 
-  tCard: TreasureCard | undefined;
-  dCard: DoorCard | undefined;
+    if (this.is_mesto && !this.treasure) {
+      const cardType = this.data.abstractData.cardType;
+      if (!isCardTargetType(cardType)) return;
 
-  podrobnee = false;
+      this.use_mesto.emit({
+        id: this.data.id,
+        type: cardType,
+      });
+      setTimeout(() => {
+        this.podrobnee = false;
+      }, 1);
+      return;
+    }
+
+    this.use_card.emit(this.data.id)
+  }
+
+  sbrosCard() {
+    if (this.data) this.sbros.emit(this.data.id);
+  }
+
+  sellCard() {
+    if (this.data) this.webs.emit("sellCard", this.data.id);
+  }
 
   closeBackdrop(ev: MouseEvent) {
     const el = ev.target as HTMLElement;
     if (el.className.includes('backdrop')) {
       this.podrobnee = false
     }
-  }
-  test(v: any) {
-    console.log(v);
-    return v
   }
 }
 
@@ -85,32 +84,10 @@ export type TreasureCard = TreasureCardDto;
 export type DoorCard = DoorCardDto;
 export type AbstractCard = CardDto;
 
+function isCardTargetType(cardType: string): cardType is CardTargetDto["type"] {
+  return cardType === "Класс" || cardType === "Раса";
+}
 
-// tCard: TreasureCard = {
-//   abstractData: {
-//     name: "Коротышные латы",
-//     description: "Только для дварфов",
-//     cardType: "Сокровище"
-//   },
-//   data: {
-//     treasureType: "Надеваемая",
-//     template: "Рядом",
-//     cost: 1200,
-//     // big: true
-//   },
-//   strongest: 2
-// }
-
-// dCard: DoorCard = {
-//   abstractData: {
-//     name: "3872 орка",
-//     description: "+6 против дварфов (старые счёты)",
-//     cardType: "Монстр"
-//   },
-//   data: {
-//     lvl: 10,
-//     gold: 3,
-//     strongest: 10,
-//     undead: false,
-//   },
-// }
+function isDoorCard(card: AbstractCard): card is DoorCard {
+  return card.abstractData.cardType !== "Сокровище";
+}

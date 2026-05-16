@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Lobby, PlayerGlobal } from '../../data/main';
 import { Socket } from 'socket.io';
+import { PlayerGlobal } from '../../data/main';
+
 @Injectable()
 export class DataService {
     clients: PlayerGlobal[] = [];
@@ -15,38 +16,38 @@ export class DataService {
         })
     }
 
-    deleteFromMass(mass: string[], ...els: string[]) {
-        mass = mass.filter((el) => !els.includes(el))
-    }
     connectClient(client: Socket) {
         let name: string = client.handshake.headers['name'] as string;
         if (!name) return;
         name = new TextDecoder().decode(new Uint8Array(name.split(",").map(el => Number(el))))
-        const tmp = this.clients.find(el => el.name == name)
-        if (tmp) {
-            tmp.socket = client;
-            client.emit("goTo", tmp.getPositionStr())
+        const existingClient = this.clients.find(el => el.name == name)
+        if (existingClient) {
+            existingClient.socket = client;
+            client.emit("goTo", existingClient.getPositionStr())
         }
         else this.clients.push(new PlayerGlobal(client, name));
     }
+
     disconnectClient(client: Socket) {
         const player = this.getClient(client);
         if (player) {
-            const tmp = player.out();
-            if (tmp) return
+            const isGameDisconnect = player.out();
+            if (isGameDisconnect) return
             this.clients = this.clients.filter(el => el.socket != client);
         }
     }
-    getClient(id: Socket): PlayerGlobal | undefined {
-        const tmp = this.clients.find(el => el.socket == id);
-        return tmp;
+
+    getClient(id: Socket): PlayerGlobal {
+        return this.clients.find(el => el.socket == id);
     }
+
     getHomeClients() {
         return this.clients.filter(el => el.position == "home");
     }
-    sendMessageToClient(client: Socket, message: any, head: string = "message") {
+
+    sendMessageToClient(client: Socket, message: unknown, head: string = "message") {
         if (client) {
             client.emit(head, message);
         }
-    } // кому кому только одному
+    }
 }

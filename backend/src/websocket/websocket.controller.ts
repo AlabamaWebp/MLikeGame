@@ -42,7 +42,7 @@ export class MyGateway implements OnGatewayConnection, OnGatewayDisconnect {
       catch { throw "Ошибка в refreshHomeFromAll " + el; }
     })
   } /// Обновить всем лобби
-  sendHomeClients(message: any, head: string = "message") {
+  sendHomeClients(message: unknown, head: string = "message") {
     this.data.getHomeClients().forEach((el) => {
       this.data.sendMessageToClient(el.socket, message, head)
     })
@@ -113,12 +113,12 @@ export class MyGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // @MessageBody() roomName: string,
     @ConnectedSocket() client: Socket,
   ) {
-    //@ts-ignore
-    const position = this.data.getClient(client).getPositionStr();
+    const player = this.data.getClient(client);
+    const position = player.getPositionStr();
     if (position == "lobby") {
-      //@ts-ignore
-      const name = this.data.getClient(client).position.name;
-      const tmp = this.data.getClient(client).out();
+      const lobby = player.position as Lobby;
+      const name = lobby.name;
+      const tmp = player.out();
       if (tmp === true) { // если успешно 
         // client.emit("statusPlayer", this.data.getClient(client)?.getPositionStr())
         this.lobbys.refreshOneLobby(name); // обновляем для всех в команте что удалился игрок
@@ -328,7 +328,7 @@ export class MyGateway implements OnGatewayConnection, OnGatewayDisconnect {
         game.Player.logging(pl.name + " вышел")
         this.games.deleteGame(game);
       }
-      catch { console.log("lol") }
+      catch { return; }
     }
   }
 }

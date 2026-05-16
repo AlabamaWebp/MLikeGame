@@ -1,7 +1,7 @@
 import { fieldDoorCards, fieldTreasureCards } from "./interfaces/Field";
 
 
-export const shuffle = (array): any[] => {
+export const shuffle = <T>(array: T[]): T[] => {
     let m = array.length, t, i;
     // Пока есть элементы для перемешивания
     while (m) {
@@ -14,9 +14,6 @@ export const shuffle = (array): any[] => {
     }
     return array;
 }
-// function shuffle(array: any) {
-//     return array.sort(() => Math.random() - 0.5);
-// }
 export function p_getFieldCards(cards: fieldDoorCards | fieldTreasureCards) {
     if (!cards) 
         return
