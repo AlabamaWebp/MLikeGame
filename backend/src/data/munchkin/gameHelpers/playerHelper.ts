@@ -1,8 +1,7 @@
 import { Socket } from "socket.io";
 import { MunchkinGame } from "../mucnhkinGame";
-import { MunckinPlayerStats, PlayerGame } from "../player";
-import { IField, IDoor } from "../interfaces/Game";
-import { ITreasure } from "../interfaces/TreasureCard";
+import { PlayerGame } from "../player";
+import type { CurrentPlayerStatsDto, MunchkinOutputDto } from '@shared';
 
 
 export class PlayerHelper {
@@ -19,7 +18,7 @@ export class PlayerHelper {
         const you_first_fight = field.fight?.players.first.player == player;
         if (you_first_fight && !field.fight.players.first.smivka) smivka = true;
         if (field.fight?.players.second?.player == player && !field.fight.players.second.smivka) smivka = true;
-        const you = this.game.players.find(el => el == player).stats(true);
+        const you = this.game.players.find(el => el == player).stats(true) as CurrentPlayerStatsDto;
         const pls = this.game.players
             .filter(el => el != player)
             .map((el: PlayerGame) => el.stats())
@@ -65,30 +64,4 @@ export class PlayerHelper {
     sendAllLog(player: Socket) { player.emit("allLog", this.log); }
     sendError(pl: Socket, message: string) { pl.send("error", message) }
 }
-export interface MunchkinOutput {
-    queue: string;
-    step: 0 | 1 | 2 | 3;
-    field: IField;
-    is_fight: boolean;
-    sbros: {
-        doors: IDoor;
-        treasures: ITreasure;
-    };
-    cards: {
-        doors: number;
-        treasures: number;
-    };
-    players: MunckinPlayerStats[];
-    you: MunckinPlayerStats;
-    you_hodish: boolean;
-    pas: boolean;
-    smivka: boolean;
-    rasses_mesto: boolean;
-    classes_mesto: boolean;
-    help_ask: {
-        pl: MunckinPlayerStats;
-        gold: number;
-    }
-    is_help: boolean;
-    end: boolean;
-}
+export type MunchkinOutput = MunchkinOutputDto;

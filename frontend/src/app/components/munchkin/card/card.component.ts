@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { WebsocketService } from '../../../services/websocket.service';
 import { CommonModule } from '@angular/common';
-import { animate, style, transition, trigger } from '@angular/animations';
+import type { CardDto, CardTargetDto, DoorCardDto, TreasureCardDto } from '@shared';
 
 @Component({
   selector: 'app-card',
@@ -80,52 +80,10 @@ export class CardComponent {
   }
 }
 
-export interface toPlayer {
-  id: number,
-  type: "Класс" | "Раса"
-}
-interface TreasureCard {
-  abstractData: AbstractData,
-  strongest: number,
-  data: TreasureData,
-  id: number
-}
-interface DoorCard {
-  abstractData: AbstractData,
-  data?: MonsterData,
-  id: number
-}
-
-interface AbstractData {
-  name: string;
-  description: string;
-  cardType: "Класс" | "Раса" | "Проклятие" | "Монстр" | "Сокровище"
-  img?: string;
-  cost: number
-}
-interface MonsterData {
-  get_lvls: number;
-  strongest: number;
-  gold: number;
-  undead?: boolean;
-}
-interface TreasureData {
-  treasureType: "Надеваемая" | "Используемая" | "Боевая"
-  template?: "Шлем" | "Броник" | "Ноги" | "Рука"
-  | "2 Руки" | "3 Руки" | "Рядом" | undefined
-  big?: boolean | undefined
-}
-
-
-
-export interface AbstractCard {
-  abstractData: AbstractData;
-  id: number;
-  strong?: number;
-  data?: TreasureData | MonsterData;
-  is_super?: boolean
-  use: boolean
-}
+export type toPlayer = CardTargetDto;
+export type TreasureCard = TreasureCardDto;
+export type DoorCard = DoorCardDto;
+export type AbstractCard = CardDto;
 
 
 // tCard: TreasureCard = {

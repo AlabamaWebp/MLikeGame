@@ -3,6 +3,7 @@ import { WebsocketService } from '../../services/websocket.service';
 import { NavigationStart, Router } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonModule } from '@angular/material/button';
+import type { LobbyRoomDto, Sex } from '@shared';
 
 @Component({
   selector: 'app-lobby',
@@ -16,7 +17,7 @@ export class LobbyComponent {
     !webs.isConnect() ? router.navigate(["start"]) : 0;
   }
   ngOnInit() {
-    this.webs.on("statusLobby", (e: any) => {
+    this.webs.on("statusLobby", (e: LobbyRoomDto) => {
       this.data = e;
     })
     this.webs.on("allReady", () => {
@@ -24,11 +25,11 @@ export class LobbyComponent {
     })
     this.webs.emit("statusLobby");
   }
-  data: data | undefined;
+  data: LobbyRoomDto | undefined;
   clickReady(d: boolean) {
     this.webs.emit("setReady", d);
   }
-  clickSex(d: string) {
+  clickSex(d: Sex) {
     this.webs.emit("setSex", d);
   }
   roomOut() {
@@ -42,16 +43,4 @@ export class LobbyComponent {
     ]
     this.webs.off(events)
   }
-}
-interface data {
-  name: string,
-  creator: boolean,
-  players: player[],
-  maxPlayers: number,
-}
-interface player {
-  nickname: string,
-  sex: "Мужчина" | "Женщина",
-  ready: boolean,
-  you: boolean
 }

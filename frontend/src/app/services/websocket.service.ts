@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import io, { Socket } from 'socket.io-client';
+import type { ClientPosition } from '@shared';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class WebsocketService {
       // console.log(e);
       this.router.navigate(["start"])
     })
-    this.socket.on('goTo', (str: "home" | "game" | "lobby") => {
+    this.socket.on('goTo', (str: ClientPosition) => {
       this.router.navigate([str])
     })
   }

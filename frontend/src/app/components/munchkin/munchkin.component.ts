@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
 import { WebsocketService } from '../../services/websocket.service';
 import { Router } from '@angular/router';
-import { AbstractCard, CardComponent, toPlayer } from './card/card.component';
+import { CardComponent, toPlayer } from './card/card.component';
 import { PlayerComponent } from './player/player.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, } from '@angular/material/dialog';
@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { HelpFightComponent } from './dialogs/help-fight/help-fight.component';
 import { animate, style, transition, trigger } from '@angular/animations';
+import type { MunchkinOutputDto, PlayerStatsDto } from '@shared';
 // import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -71,7 +72,7 @@ export class MunchkinComponent {
   cond_timer: any;
   show_stats = true;
   condition: string | undefined;
-  data: refreshGame | undefined;
+  data: MunchkinOutputDto | undefined;
   you: any;
   log_: string[] = [];
   step: number = -1;
@@ -104,96 +105,4 @@ export class MunchkinComponent {
   }
 }
 
-interface refreshGame {
-  queue: string,
-  step: 0 | 1 | 2 | 3,
-  field: GameField,
-  is_fight: boolean,
-  sbros:
-  {
-    doors: AbstractCard,
-    treasures: AbstractCard
-  },
-  players: playerData[],
-  you: playerData,
-  you_hodish: boolean,
-  pas: boolean,
-  smivka: boolean,
-  cards: {
-    doors: number
-    treasures: number
-  }
-  rasses_mesto: boolean
-  classes_mesto: boolean
-  help_ask: { pl: playerData, gold: number } | undefined
-  is_help: boolean
-  end: boolean
-}
-
-export interface playerData {
-  name: string,
-  lvl: number,
-  sex: "Мужчина" | "Женщина",
-  cards: AbstractCard[],
-  t_field: {
-    helmet: AbstractCard[],
-    body: AbstractCard[],
-    legs: AbstractCard[],
-    arm: [],
-    other: AbstractCard[],
-  },
-  d_field: {
-    rasses: {
-      first: AbstractCard,
-      second: AbstractCard,
-      bonus: AbstractCard,
-    }
-    classes: {
-      first: AbstractCard,
-      second: AbstractCard,
-      bonus: AbstractCard,
-    }
-  },
-  queue: number,
-  max_cards: number,
-  power: number,
-  coins: number
-}
-interface PlayerFight {
-  player: playerData
-  gold: number
-  smivka: boolean
-}
-interface GameField {
-  is_fight: boolean
-  fight?: {
-    players: {
-      main: PlayerFight,
-      secondary?: PlayerFight,
-      strongest: number ///
-    }
-    cards?: {
-      players?: AbstractCard[],
-      monsters?: AbstractCard[],
-    }
-    monsters: AbstractCard[]
-    monsterStrongest: number ///
-    // monstersProto: AbstractCard[]
-    gold?: number
-    lvls: number ///
-
-  }
-  openCards?: (AbstractCard)[]
-
-}
-interface fieldTreasureCards {
-  helmet?: AbstractCard[]
-  body?: AbstractCard[]
-  legs?: AbstractCard[]
-  arm?: AbstractCard[]
-  other?: AbstractCard[]
-}
-interface fieldDoorCards {
-  rasses?: AbstractCard[]
-  classes?: AbstractCard[]
-}
+export type playerData = PlayerStatsDto;

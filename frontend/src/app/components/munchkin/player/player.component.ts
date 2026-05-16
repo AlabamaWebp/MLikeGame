@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { AskHelpGoldComponent } from '../dialogs/ask-help-gold/ask-help-gold.component';
 import { CommonModule } from '@angular/common';
+import type { UseCardPlaceDto } from '@shared';
 
 @Component({
   selector: 'app-player',
@@ -40,9 +41,9 @@ export class PlayerComponent {
   clickTemplate(s: string) {
     this.template.emit(s);
   }
-  useCardMesto(mesto: string) {
+  useCardMesto(mesto: UseCardPlaceDto["mesto"]) {
     if (!this.dataMesto) return;
-    const body = {
+    const body: UseCardPlaceDto = {
       id_card: this.dataMesto?.id,
       mesto: mesto,
     }
@@ -65,9 +66,6 @@ export class PlayerComponent {
       }
     });
   }
-}
-export interface cardMestoEvent {
-  mesto: "first" | "second" | "bonus"
 }
 export interface closeEvent {
   action: string

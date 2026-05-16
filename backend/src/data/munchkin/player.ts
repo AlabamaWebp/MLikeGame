@@ -5,6 +5,7 @@ import { IfieldDoorCards, fieldDoorCards, fieldTreasureCards, _fieldDoorCards } 
 import { IDoor } from "./interfaces/Game";
 import { ITreasure, TreasureCard } from "./interfaces/TreasureCard";
 import { MunchkinGame } from "./mucnhkinGame";
+import type { UseCardPlaceDto } from '@shared';
 
 export interface MunckinPlayerStats {
     name: string;
@@ -274,7 +275,4 @@ export class PlayerGame {
         this.game.Player.allPlayersRefresh();
     }
 }
-export interface cardMestoEvent {
-    id_card: number,
-    mesto: "first" | "second" | "bonus"
-}
+export type cardMestoEvent = UseCardPlaceDto;

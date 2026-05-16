@@ -2,6 +2,7 @@ import { Socket } from 'socket.io';
 import { MunchkinGame } from './munchkin/mucnhkinGame';
 import { shuffle } from './munchkin/functions';
 import { PlayerGame } from './munchkin/player';
+import type { ClientPosition } from '@shared';
 
 export class Lobby {
     constructor(name: string, max: number, creator: Socket | undefined, nickname: string) {
@@ -118,7 +119,7 @@ export class PlayerGlobal {
             return true;
         }
     }
-    getPositionStr(): "home" | "game" | "lobby" {
+    getPositionStr(): ClientPosition {
         if (this.position == "home")
             return "home"
         else if (this.position instanceof Lobby)

@@ -4,6 +4,11 @@
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "paths": {
+      "@shared/*": ["../shared/src/*"],
+      "@shared": ["../shared/src/index"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

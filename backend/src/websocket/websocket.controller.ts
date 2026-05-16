@@ -7,6 +7,7 @@ import { MunchkinGame } from 'src/data/munchkin/mucnhkinGame';
 import { MunchkinService } from './munchkin/munchkin.service';
 import { cardMestoEvent } from 'src/data/munchkin/player';
 import { PlayerGame } from 'src/data/munchkin/player';
+import type { CreateRoomDto, HelpAskDto } from '@shared';
 
 @WebSocketGateway(3001, {
   cors: {
@@ -66,7 +67,7 @@ export class MyGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('createLobby')
   createLobby(
-    @MessageBody() data: createRoom,
+    @MessageBody() data: CreateRoomDto,
     @ConnectedSocket() client: Socket,
   ) {
     const tmp = this.lobbys.createLobby(data.name, data.max, client, this.data.getClient(client).name);
@@ -270,7 +271,7 @@ export class MyGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('helpAsk')
   helpAsk(
     @ConnectedSocket() client: Socket,
-    @MessageBody() d: { to: string, gold: number }
+    @MessageBody() d: HelpAskDto
   ) {
     const game = this.data.getClient(client).position;
     if (game instanceof MunchkinGame)
@@ -332,10 +333,6 @@ export class MyGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 }
 
-interface createRoom {
-  name: string
-  max: number
-}
 // function runInGame(client: Socket, func: () => void) {
 //   const player: PlayerGlobal = this.data.getClient(client);
 //   const game = player.position;
